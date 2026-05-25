@@ -1,0 +1,38 @@
+.auth-area {
+    width: 100%;
+    max-width: 500px;
+    padding: 15px;
+    height: 100%;
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 20px;
+
+    & .login-block {
+        margin-top: 30px;
+    }
+
+    & .login-block .h4 {
+        margin-bottom: 8px;
+    }
+
+    & .login-form {
+        margin-top: 10px;
+
+        & .form-label-text {
+            font-weight: bold;
+        }
+
+        input {
+            margin-bottom: 10px;
+        }
+
+        & .btn-login-block {
+            width: 100%;
+            margin: 3px;
+            border-radius: 100px;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 30px;
+        }
+    }
+}

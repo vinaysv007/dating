@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const Fiber = require('fibers');
 
 const port = process.env.PORT || 8000;
 
@@ -17,13 +19,31 @@ module.exports = {
                 use: {
                     loader: 'babel-loader'
                 }
+            },
+            {
+                test: /\.css$/,
+                use: [ 'style-loader', 'css-loader' ]
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    {
+                      loader: 'style-loader',
+                    },
+                    {
+                      loader: 'css-loader',
+                    },
+                    {
+                      loader: 'sass-loader'
+                    }
+                ]
             }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html'
-        })
+        }),
     ],
     devServer: {
         host: 'localhost',

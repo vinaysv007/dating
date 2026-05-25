@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Login from './components/pages/Login';
 import Landing from './components/pages/Landing';
+import Home from './components/pages/Home';
+import Navigation from './components/pages/Navigation';
+
+import './components/css/Styles.scss';
 
 class App extends Component {
     render() {
         return (
             <BrowserRouter>
+                <Navigation/>
                 <Switch>
                     <React.Fragment>
-                        <Route path="/" exact component={Login} />
-                        <Route path="/landing" component={Landing} />
+                        <Route path="/" exact component={Landing} />
+                        <Route path="/Home" component={Home} />
                     </React.Fragment>
                     <Route />
                 </Switch>
