@@ -2,6 +2,7 @@
 
 # Stage 1: Build the backend
 FROM node:22-bookworm-slim AS backend-builder
+SHELL ["/bin/sh", "-c"]
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable && corepack prepare pnpm@10.33.4 --activate
