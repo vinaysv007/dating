@@ -5,9 +5,9 @@ RUN corepack enable && corepack prepare pnpm@10.33.4 --activate
 
 FROM base AS builder
 WoRKDIR /app
-COPY backend/package.json backend/pnpm-lock.yaml ./ 
+COPY apps/backend/package.json apps/backend/pnpm-lock.yaml ./ 
 RUN pnpm install --frozen-lockfile
-COPY backend ./
+COPY apps/backend ./
 RUN pnpm run build
 
 FROM base AS runtime
@@ -16,7 +16,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 ENV NODE_ENV=production
 
 WORKDIR /app
-COPY backend/package.json backend/pnpm-lock.yaml ./
+COPY apps/backend/package.json apps/backend/pnpm-lock.yaml ./
 RUN pnpm install --production --frozen-lockfile --prod
 
 COPY --from=builder /app/dist ./dist
