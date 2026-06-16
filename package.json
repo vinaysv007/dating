@@ -1,0 +1,13 @@
+{
+    "name": "dating app monorepo",
+    "version": "1.0.0",
+    "workspaces": [ 
+        "apps/frontend",
+        "apps/backend"
+    ],
+    "private": true,
+    "scripts": {
+        "start:frontend": "pnpm --filter frontend start",
+        "start:backend": "pnpm --filter backend dev"
+    }
+}
