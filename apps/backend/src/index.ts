@@ -18,6 +18,10 @@ app.get('/api/health', (req: Request, res: Response) => {
   res.send('Server is Running!!');
 });
 
+app.get('/api/', (req: Request, res: Response) => {
+  res.send('Welcome to the Dating App API');
+});
+
 app.use((req: Request, res: Response) => {
   res.status(404).json({message: 'Endpoint not found'});
 });
