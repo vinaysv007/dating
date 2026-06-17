@@ -19,7 +19,7 @@ app.get('/api/health', (req: Request, res: Response) => {
 });
 
 app.get('/api/', (req: Request, res: Response) => {
-  res.send('Welcome to the Dating App API v2');
+  res.send('Welcome to the Dating App API v3');
 });
 
 app.use((req: Request, res: Response) => {
