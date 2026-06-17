@@ -1,5 +1,5 @@
 {
-  "name": "@v3/backend",
+  "name": "backend",
   "version": "1.0.0",
   "description": "Express TypeScript Backend Server",
   "main": "dist/index.js",
