@@ -20,7 +20,6 @@ export const clerkWebHookMiddleware = async (req: Request, res: Response) => {
         body: payload,
     });
 
-    console.log(env.CLERK_WEBHOOK_SECRET, "webhook secret");
     const evt = await verifyWebhook(request, {signingSecret: env.CLERK_WEBHOOK_SECRET});
     const evtType = evt.type;
 
@@ -33,7 +32,7 @@ export const clerkWebHookMiddleware = async (req: Request, res: Response) => {
         await db.insert(users).values({createdAt: new Date(), id: user.id}).onConflictDoUpdate({
             target: users.id,
             set: {
-                createdAt: new Date(),
+                updatedAt: new Date(),
             },
         });
         console.log('User inserted/updated in the database:', user.id);
