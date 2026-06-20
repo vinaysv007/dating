@@ -4,6 +4,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { getEnv } from './libs/env';
 import { clerkWebHookMiddleware } from './webhook/Clerk';
+import { db } from './db';
+import profileRouter from './profile/profile.routes';
+import { handleError } from './middleware/handleError';
 
 dotenv.config();
 
@@ -31,10 +34,26 @@ app.get('/api/', (req: Request, res: Response) => {
   res.send('Welcome to the Dating App API v3');
 });
 
+app.use('/api/profile', profileRouter);
+
 app.use((req: Request, res: Response) => {
   res.status(404).json({message: 'Endpoint not found'});
 });
 
-app.listen(env.PORT, () => {
-  console.log(`Server is running on port ${env.PORT}`);
-});
+app.use(handleError);
+
+const start = async () => {
+  try {
+    await db.execute('select 1');
+    console.log('Database connection established');
+  } catch (err) {
+    console.error('Failed to connect to the database:', err);
+    process.exit(1);
+  }
+
+  app.listen(env.PORT, () => {
+    console.log(`Server is running on port ${env.PORT}`);
+  });
+}
+
+start();
