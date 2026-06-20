@@ -20,8 +20,8 @@ export const clerkWebHookMiddleware = async (req: Request, res: Response) => {
         body: payload,
     });
 
-    const evt = await verifyWebhook(request, { signingSecret: env.CLERK_WEBHOOK_SECRET });
-
+    console.log(env.CLERK_WEBHOOK_SECRET, "webhook secret");
+    const evt = await verifyWebhook(request, {signingSecret: env.CLERK_WEBHOOK_SECRET});
     const evtType = evt.type;
 
     if (evtType === 'user.created' || evtType === 'user.updated') {
