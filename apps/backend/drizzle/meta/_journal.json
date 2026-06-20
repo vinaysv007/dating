@@ -15,6 +15,13 @@
       "when": 1781965109275,
       "tag": "0001_sturdy_unicorn",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781973023963,
+      "tag": "0002_cute_deathstrike",
+      "breakpoints": true
     }
   ]
 }
