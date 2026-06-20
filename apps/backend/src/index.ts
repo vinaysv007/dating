@@ -13,7 +13,8 @@ const env = getEnv();
 const rawJson = express.raw({type: 'application/json', limit: '1mb'});
 
 app.post('/webhook/clerk', rawJson, async (req: Request, res: Response) => {
-    await void clerkWebHookMiddleware(req, res);
+  console.log('Received webhook request from Clerk');  
+  await void clerkWebHookMiddleware(req, res);
 });
 
 app.use(cors());
