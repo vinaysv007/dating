@@ -12,10 +12,10 @@ export const clerkWebHookMiddleware = async (req: Request, res: Response) => {
         return res.status(500).json({ message: 'Invalid webhook secret' });
     }
 
-    const payload = req.body instanceof Buffer ? req.body.toString('utf-8') : String(req.body);
+    const payload = req.body;
 
     const request = new Request("http://internal/webhook/clerk", {
-        method: req.method,
+        method: 'POST',
         headers: new Headers(req.headers as Record<string, string>),
         body: payload,
     });
