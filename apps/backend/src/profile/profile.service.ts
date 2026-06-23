@@ -17,7 +17,6 @@ function toProfile(row: typeof profiles.$inferSelect): Profile {
     gender: row.gender,
     dob: row.dob,
     interests: row.interests,
-    preferences: row.preferences,
     lookingFor: row.lookingFor,
     height: row.height,
     occupation: row.occupation,
@@ -101,7 +100,6 @@ function buildUpdatePayload(input: UpdateProfileInput) {
   if (input.gender !== undefined) payload.gender = input.gender;
   if (input.dob !== undefined) payload.dob = input.dob;
   if (input.interests !== undefined) payload.interests = input.interests;
-  if (input.preferences !== undefined) payload.preferences = input.preferences;
   if (input.lookingFor !== undefined) payload.lookingFor = input.lookingFor;
   if (input.height !== undefined) payload.height = input.height;
   if (input.occupation !== undefined) payload.occupation = input.occupation;

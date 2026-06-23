@@ -11,7 +11,6 @@ export interface Profile {
   gender: Gender | null;
   dob: string | null;
   interests: string[];
-  preferences: Record<string, unknown>;
   lookingFor: LookingFor | null;
   height: number | null;
   occupation: string | null;
