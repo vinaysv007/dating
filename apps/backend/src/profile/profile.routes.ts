@@ -16,6 +16,7 @@ router.get('/me', getMyProfile);
 router.post('/me', createMyProfile);
 router.patch('/me', updateMyProfile);
 router.delete('/me', deleteMyProfile);
+
 router.get('/:userId', getProfileById);
 
 export default router;

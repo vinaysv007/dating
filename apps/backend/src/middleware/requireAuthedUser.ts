@@ -19,11 +19,11 @@ export function requireAuthedUser(
   _res: Response,
   next: NextFunction,
 ): void {
-  const { userId } = getAuth(req);
-  if (!userId) {
+  const auth = getAuth(req);
+  if (!auth.userId) {
     return next(new UnauthorizedError());
   }
-  (req as Request & { authedUserId?: string }).authedUserId = userId;
+  (req as Request & { authedUserId?: string }).authedUserId = auth.userId;
   next();
 }
 

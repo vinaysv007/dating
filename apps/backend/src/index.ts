@@ -6,6 +6,8 @@ import { getEnv } from './libs/env';
 import { clerkWebHookMiddleware } from './webhook/Clerk';
 import { db } from './db';
 import profileRouter from './profile/profile.routes';
+import locationRouter from './location/location.routes';
+import preferencesRouter from './preferences/preferences.routes';
 import { handleError } from './middleware/handleError';
 
 dotenv.config();
@@ -35,6 +37,8 @@ app.get('/api/', (req: Request, res: Response) => {
 });
 
 app.use('/api/profile', profileRouter);
+app.use('/api/location', locationRouter);
+app.use('/api/preferences', preferencesRouter);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({message: 'Endpoint not found'});

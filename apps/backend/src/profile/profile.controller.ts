@@ -1,9 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { getAuthedUserId } from '../middleware/requireAuthedUser';
-import {
-  createProfileSchema,
-  updateProfileSchema,
-} from './profile.dto';
+import { createProfileSchema, updateProfileSchema } from './profile.dto';
 import {
   createProfile,
   getProfileByUserId,
@@ -75,6 +72,9 @@ export async function getProfileById(
   next: NextFunction,
 ): Promise<void> {
   try {
+    // Auth gate: requireAuthedUser already validated the session. The call
+    // here is just to surface a 401 if it wasn't run. Any authed user can
+    // fetch any profile by id.
     getAuthedUserId(req);
     const profile = await getProfileByUserId(req.params.userId);
     if (!profile) {

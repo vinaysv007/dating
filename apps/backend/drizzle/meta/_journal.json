@@ -22,6 +22,20 @@
       "when": 1781973023963,
       "tag": "0002_cute_deathstrike",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1782208873319,
+      "tag": "0003_regular_emma_frost",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1782218335340,
+      "tag": "0004_nasty_penance",
+      "breakpoints": true
     }
   ]
 }

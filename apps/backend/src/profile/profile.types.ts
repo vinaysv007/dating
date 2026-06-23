@@ -10,9 +10,6 @@ export interface Profile {
   photos: string[];
   gender: Gender | null;
   dob: string | null;
-  location: string | null;
-  latitude: string | null;
-  longitude: string | null;
   interests: string[];
   preferences: Record<string, unknown>;
   lookingFor: LookingFor | null;

@@ -39,11 +39,7 @@ export const profiles = pgTable('profiles', {
   photos: json('photos').$type<string[]>().default([]).notNull(),
   gender: genderEnum('gender'),
   dob: date('dob'),
-  location: varchar('location', { length: 255 }),
-  latitude: numeric('latitude', { precision: 9, scale: 6 }),
-  longitude: numeric('longitude', { precision: 9, scale: 6 }),
   interests: json('interests').$type<string[]>().default([]).notNull(),
-  preferences: json('preferences').$type<Record<string, unknown>>().default({}).notNull(),
   lookingFor: lookingForEnum('looking_for'),
   height: integer('height'),
   occupation: varchar('occupation', { length: 255 }),
@@ -51,6 +47,31 @@ export const profiles = pgTable('profiles', {
 
   completed: boolean('completed').default(false).notNull(),
   deletedAt: timestamp('deleted_at'),
+
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const userLocations = pgTable('user_locations', {
+  userId: varchar('user_id', { length: 255 })
+    .primaryKey()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  location: varchar('location', { length: 255 }),
+  latitude: numeric('latitude', { precision: 9, scale: 6 }),
+  longitude: numeric('longitude', { precision: 9, scale: 6 }),
+
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const userPreferences = pgTable('user_preferences', {
+  userId: varchar('user_id', { length: 255 })
+    .primaryKey()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  interestedIn: genderEnum('interested_in'),
+  minAge: integer('min_age').default(18).notNull(),
+  maxAge: integer('max_age').default(80).notNull(),
+  maxDistance: integer('max_distance').default(50).notNull(),
 
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),

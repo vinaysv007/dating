@@ -16,9 +16,6 @@ function toProfile(row: typeof profiles.$inferSelect): Profile {
     photos: row.photos,
     gender: row.gender,
     dob: row.dob,
-    location: row.location,
-    latitude: row.latitude,
-    longitude: row.longitude,
     interests: row.interests,
     preferences: row.preferences,
     lookingFor: row.lookingFor,
@@ -45,32 +42,54 @@ export async function createProfile(
   userId: string,
   input: CreateProfileInput,
 ): Promise<Profile> {
-  const existing = await getProfileByUserId(userId);
-  if (existing) {
+  // userId has a UNIQUE constraint at the DB level, so we must look across
+  // BOTH active and soft-deleted rows. A soft-deleted profile is treated as
+  // reusable: clear deletedAt and apply the new payload in place.
+  const [existing] = await db
+    .select()
+    .from(profiles)
+    .where(eq(profiles.userId, userId))
+    .limit(1);
+
+  if (existing && existing.deletedAt === null) {
     throw new ProfileAlreadyExistsError();
+  }
+
+  if (existing) {
+    // Revive the soft-deleted row in place. Using UPDATE avoids the unique-
+    // constraint violation that INSERT would hit.
+    const [row] = await db
+      .update(profiles)
+      .set({
+        ...buildCreatePayload(input),
+        deletedAt: null,
+      })
+      .where(eq(profiles.id, existing.id))
+      .returning();
+    return toProfile(row);
   }
 
   const [row] = await db
     .insert(profiles)
-    .values({
-      userId,
-      bio: input.bio ?? null,
-      photos: input.photos,
-      gender: input.gender ?? null,
-      dob: input.dob ?? null,
-      location: input.location ?? null,
-      latitude: input.latitude != null ? String(input.latitude) : null,
-      longitude: input.longitude != null ? String(input.longitude) : null,
-      interests: input.interests,
-      preferences: input.preferences,
-      lookingFor: input.lookingFor ?? null,
-      height: input.height ?? null,
-      occupation: input.occupation ?? null,
-      education: input.education ?? null,
-      completed: input.completed ?? false,
-    })
+    .values({ userId, ...buildCreatePayload(input) })
     .returning();
   return toProfile(row);
+}
+
+function buildCreatePayload(input: CreateProfileInput) {
+  return {
+    bio: input.bio ?? null,
+    photos: input.photos,
+    gender: input.gender ?? null,
+    dob: input.dob ?? null,
+    interests: input.interests,
+    preferences: input.preferences,
+    lookingFor: input.lookingFor ?? null,
+    height: input.height ?? null,
+    occupation: input.occupation ?? null,
+    education: input.education ?? null,
+    completed: input.completed ?? false,
+  };
 }
 
 function buildUpdatePayload(input: UpdateProfileInput) {
@@ -81,13 +100,6 @@ function buildUpdatePayload(input: UpdateProfileInput) {
   if (input.photos !== undefined) payload.photos = input.photos;
   if (input.gender !== undefined) payload.gender = input.gender;
   if (input.dob !== undefined) payload.dob = input.dob;
-  if (input.location !== undefined) payload.location = input.location;
-  if (input.latitude !== undefined) {
-    payload.latitude = input.latitude != null ? String(input.latitude) : null;
-  }
-  if (input.longitude !== undefined) {
-    payload.longitude = input.longitude != null ? String(input.longitude) : null;
-  }
   if (input.interests !== undefined) payload.interests = input.interests;
   if (input.preferences !== undefined) payload.preferences = input.preferences;
   if (input.lookingFor !== undefined) payload.lookingFor = input.lookingFor;
