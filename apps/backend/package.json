@@ -9,7 +9,7 @@
     "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit push",
+    "db:migrate": "drizzle-kit push --force",
     "type:check": "tsc --noEmit && echo 'Type check passed!'"
   },
   "keywords": [],
